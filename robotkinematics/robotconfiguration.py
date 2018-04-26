@@ -3,7 +3,7 @@ import numpy as np
 
 class RobotConfiguration:
     ground_base = 0 # Constant
-    # Unit of lenght/height is cm
+    # Unit of lenght/height is mm
     h1 = 99.90
     h2 = 8
     l1 = 44.12
@@ -26,10 +26,10 @@ class RobotConfiguration:
                         [0,    0,    0,  np.pi/2],
                         [0,  h67,    0,  0]])
 
-    q1_limit = [-pi,pi];
-    q2_limit = [-100,860];
-    q3_limit = [-5*pi/6,5*pi/6];
-    q4_limit = [-5*pi/6,5*pi/6];
-    q5_limit = [-pi/9,5*pi/6];
-    q6_limit = [-pi,pi];
+    q1_limit = [-np.pi,np.pi]
+    q2_limit = [-100,860]
+    q3_limit = [-5*np.pi/6,5*np.pi/6]
+    q4_limit = [-5*np.pi/6,5*np.pi/6]
+    q5_limit = [-np.pi/9,5*np.pi/6]
+    q6_limit = [-np.pi,np.pi]
     
