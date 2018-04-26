@@ -25,4 +25,11 @@ class RobotConfiguration:
                         [0,  -h5,    0,  np.pi/2],
                         [0,    0,    0,  np.pi/2],
                         [0,  h67,    0,  0]])
+
+    q1_limit = [-pi,pi];
+    q2_limit = [-100,860];
+    q3_limit = [-5*pi/6,5*pi/6];
+    q4_limit = [-5*pi/6,5*pi/6];
+    q5_limit = [-pi/9,5*pi/6];
+    q6_limit = [-pi,pi];
     
