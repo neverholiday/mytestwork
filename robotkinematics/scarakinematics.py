@@ -81,17 +81,18 @@ class SCARAKinematics(object):
         n = self.robot.dh_table.shape[0]
         # print n
         H = np.zeros((4,4,n))
+        add_q_to_dh = np.zeros(self.robot.dh_table.shape)
         # print H
         # Add q depend on type of joint
         for i in range(n):
             if(self.robot.type_of_joint[i] == 0):
-                self.robot.dh_table[i,1] = self.robot.dh_table[i,1] + q[i]
+                add_q_to_dh[i,1] = self.robot.dh_table[i,1] + q[i]
             elif(self.robot.type_of_joint[i] == 1):
-                self.robot.dh_table[i,0] = self.robot.dh_table[i,0] + q[i]
+                add_q_to_dh[i,0] = self.robot.dh_table[i,0] + q[i]
         
         # Find forwardkinematics equation
         for i in range(n):
-            A_n = self.dh_trans(self.robot.dh_table[i,0],self.robot.dh_table[i,1],self.robot.dh_table[i,2],self.robot.dh_table[i,3])
+            A_n = self.dh_trans(add_q_to_dh[i,0],add_q_to_dh[i,1],add_q_to_dh[i,2],add_q_to_dh[i,3])
             if(i == 0):
                 H[:,:,i] = A_n
             else:
@@ -135,26 +136,11 @@ class SCARAKinematics(object):
         q_wrist_pos_A = np.array([0,q1_A,q2,q3_A,0,0,0])
         q_wrist_pos_B = np.array([0,q1_B,q2,q3_B,0,0,0])
 
-
-        # print "\n\n\n\n"
-        # print "q_wrist"
-        # print q_wrist_pos_A
-        # print "\n\n\n\n"
-        # print q_wrist_pos_B
-
-
-
         H_A = self.forwardKinematics(q_wrist_pos_A)[0]
         H_B = self.forwardKinematics(q_wrist_pos_B)[0]
         
         R_04_A = H_A[0:3,0:3,3]
         R_04_B = H_B[0:3,0:3,3]
-
-        # print "\n\n\n\n"
-        # print "Rotation after forwardkinematics"
-        # print R_04_A
-        # print "\n\n\n\n"
-        # print R_04_B
 
         R_47_A = np.matmul(np.transpose(R_04_A),R_e[:3,:3])
         R_47_B = np.matmul(np.transpose(R_04_B),R_e[:3,:3])
@@ -201,7 +187,9 @@ class SCARAKinematics(object):
         q_4 = np.array([0,q1_B,q2,q3_B,q4_Bb,q5_Bb,q6_Bb]).T
         
         q = np.vstack((q_1,q_2,q_3,q_4))
-
+        # print "\n\n\n\n"
+        # print q
+        # print "\n\n\n\n"
         q = self._check_best_configure(q,q_previous)
 
         return q
@@ -220,9 +208,12 @@ class SCARAKinematics(object):
                 check_.append(q[i,:])
 
         distance = []
+        temp_distance = 0
         for i in range(len(check_)):
-            norm_i = np.linalg.norm(check_[i])**2
+            temp_distance = check_[i] - q_previous
+            norm_i = np.linalg.norm(temp_distance)**2
             distance.append(norm_i)
+        # print distance
         _idx = distance.index(min(distance))
         return check_[_idx]
     
