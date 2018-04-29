@@ -117,82 +117,85 @@ class SCARAKinematics(object):
 
         c3 = ((pos_wrist[0]**2 + pos_wrist[1]**2 - self.robot.l3**2 - (self.robot.l2 - self.robot.l1)**2)/(2*self.robot.l3*(self.robot.l2-self.robot.l1)))
 
+        if(np.isnan(c3)):
         # s3_positive = np.sqrt(1-(c3**2))
         # s3_negative = -np.sqrt(1-(c3**2))
-        s3_positive = np.sqrt(1-(c3**2))
-        s3_negative = -1*np.sqrt(1-(c3**2))
+            s3_positive = np.sqrt(1-(c3**2))
+            s3_negative = -1*np.sqrt(1-(c3**2))
 
-        q3_A = np.arctan2(s3_positive,c3)
-        q3_B = np.arctan2(s3_negative,c3)
+            q3_A = np.arctan2(s3_positive,c3)
+            q3_B = np.arctan2(s3_negative,c3)
 
-        s1_positive = (-self.robot.l3*s3_positive)*pos_wrist[0] + ((self.robot.l2-self.robot.l1) + self.robot.l3*c3)*pos_wrist[1]
-        s1_negative = (-self.robot.l3*s3_negative)*pos_wrist[0] + ((self.robot.l2-self.robot.l1) + self.robot.l3*c3)*pos_wrist[1]
+            s1_positive = (-self.robot.l3*s3_positive)*pos_wrist[0] + ((self.robot.l2-self.robot.l1) + self.robot.l3*c3)*pos_wrist[1]
+            s1_negative = (-self.robot.l3*s3_negative)*pos_wrist[0] + ((self.robot.l2-self.robot.l1) + self.robot.l3*c3)*pos_wrist[1]
 
-        c1_positive = ((self.robot.l2-self.robot.l1)+(self.robot.l3*c3))*pos_wrist[0] + (self.robot.l3*s3_positive)*pos_wrist[1]
-        c1_negative = ((self.robot.l2-self.robot.l1)+(self.robot.l3*c3))*pos_wrist[0] + (self.robot.l3*s3_negative)*pos_wrist[1]
-        
-        q1_A = np.arctan2(s1_positive,c1_positive)
-        q1_B = np.arctan2(s1_negative,c1_negative)
-        q_wrist_pos_A = np.array([0,q1_A,q2,q3_A,0,0,0])
-        q_wrist_pos_B = np.array([0,q1_B,q2,q3_B,0,0,0])
+            c1_positive = ((self.robot.l2-self.robot.l1)+(self.robot.l3*c3))*pos_wrist[0] + (self.robot.l3*s3_positive)*pos_wrist[1]
+            c1_negative = ((self.robot.l2-self.robot.l1)+(self.robot.l3*c3))*pos_wrist[0] + (self.robot.l3*s3_negative)*pos_wrist[1]
+            
+            q1_A = np.arctan2(s1_positive,c1_positive)
+            q1_B = np.arctan2(s1_negative,c1_negative)
+            q_wrist_pos_A = np.array([0,q1_A,q2,q3_A,0,0,0])
+            q_wrist_pos_B = np.array([0,q1_B,q2,q3_B,0,0,0])
 
-        H_A = self.forwardKinematics(q_wrist_pos_A)[0]
-        H_B = self.forwardKinematics(q_wrist_pos_B)[0]
-        
-        R_04_A = H_A[0:3,0:3,3]
-        R_04_B = H_B[0:3,0:3,3]
+            H_A = self.forwardKinematics(q_wrist_pos_A)[0]
+            H_B = self.forwardKinematics(q_wrist_pos_B)[0]
+            
+            R_04_A = H_A[0:3,0:3,3]
+            R_04_B = H_B[0:3,0:3,3]
 
-        R_47_A = np.matmul(np.transpose(R_04_A),R_e[:3,:3])
-        R_47_B = np.matmul(np.transpose(R_04_B),R_e[:3,:3])
-        
-        # A ---------------------------------
-        r23_A = R_47_A[1,2]
-        r13_A = R_47_A[0,2]
-        r31_A = R_47_A[2,0]
-        r32_A = R_47_A[2,1]
-        r33_A = R_47_A[2,2]
+            R_47_A = np.matmul(np.transpose(R_04_A),R_e[:3,:3])
+            R_47_B = np.matmul(np.transpose(R_04_B),R_e[:3,:3])
+            
+            # A ---------------------------------
+            r23_A = R_47_A[1,2]
+            r13_A = R_47_A[0,2]
+            r31_A = R_47_A[2,0]
+            r32_A = R_47_A[2,1]
+            r33_A = R_47_A[2,2]
 
-        sq_Aa = np.sqrt(r31_A**2 + r32_A**2)
-        sq_Ab = -np.sqrt(r31_A**2 + r32_A**2)
+            sq_Aa = np.sqrt(r31_A**2 + r32_A**2)
+            sq_Ab = -np.sqrt(r31_A**2 + r32_A**2)
 
-        q4_Aa = np.arctan2(r23_A/sq_Aa,r13_A/sq_Aa)
-        q4_Ab = np.arctan2(r23_A/sq_Ab,r13_A/sq_Ab)
-        q5_Aa = np.arctan2(sq_Aa,-r33_A)
-        q5_Ab = np.arctan2(sq_Ab,-r33_A)
-        q6_Aa = np.arctan2(-r32_A/sq_Aa,r31_A/sq_Aa)
-        q6_Ab = np.arctan2(-r32_A/sq_Ab,r31_A/sq_Ab)
+            q4_Aa = np.arctan2(r23_A/sq_Aa,r13_A/sq_Aa)
+            q4_Ab = np.arctan2(r23_A/sq_Ab,r13_A/sq_Ab)
+            q5_Aa = np.arctan2(sq_Aa,-r33_A)
+            q5_Ab = np.arctan2(sq_Ab,-r33_A)
+            q6_Aa = np.arctan2(-r32_A/sq_Aa,r31_A/sq_Aa)
+            q6_Ab = np.arctan2(-r32_A/sq_Ab,r31_A/sq_Ab)
 
-        # B ------------------------------
-        r23_B = R_47_B[1,2]
-        r13_B = R_47_B[0,2]
-        r31_B = R_47_B[2,0]
-        r32_B = R_47_B[2,1]
-        r33_B = R_47_B[2,2]
+            # B ------------------------------
+            r23_B = R_47_B[1,2]
+            r13_B = R_47_B[0,2]
+            r31_B = R_47_B[2,0]
+            r32_B = R_47_B[2,1]
+            r33_B = R_47_B[2,2]
 
-        sq_Ba = np.sqrt(r31_B**2 + r32_B**2);  # plus
-        sq_Bb = -np.sqrt(r31_B**2 + r32_B**2); # minus
+            sq_Ba = np.sqrt(r31_B**2 + r32_B**2);  # plus
+            sq_Bb = -np.sqrt(r31_B**2 + r32_B**2); # minus
 
-        q4_Ba = np.arctan2(r23_B/sq_Ba,r13_B/sq_Ba);
-        q4_Bb = np.arctan2(r23_B/sq_Bb,r13_B/sq_Bb);
-        q5_Ba = np.arctan2(sq_Ba,-r33_B);
-        q5_Bb = np.arctan2(sq_Bb,-r33_B);
-        q6_Ba = np.arctan2(-r32_B/sq_Ba,r31_B/sq_Ba);
-        q6_Bb = np.arctan2(-r32_B/sq_Bb,r31_B/sq_Bb);
+            q4_Ba = np.arctan2(r23_B/sq_Ba,r13_B/sq_Ba);
+            q4_Bb = np.arctan2(r23_B/sq_Bb,r13_B/sq_Bb);
+            q5_Ba = np.arctan2(sq_Ba,-r33_B);
+            q5_Bb = np.arctan2(sq_Bb,-r33_B);
+            q6_Ba = np.arctan2(-r32_B/sq_Ba,r31_B/sq_Ba);
+            q6_Bb = np.arctan2(-r32_B/sq_Bb,r31_B/sq_Bb);
 
-        # Result of 4 Configuration
-        q_1 = np.array([0,q1_A,q2,q3_A,q4_Aa,q5_Aa,q6_Aa]).T
-        q_2 = np.array([0,q1_A,q2,q3_A,q4_Ab,q5_Ab,q6_Ab]).T
+            # Result of 4 Configuration
+            q_1 = np.array([0,q1_A,q2,q3_A,q4_Aa,q5_Aa,q6_Aa]).T
+            q_2 = np.array([0,q1_A,q2,q3_A,q4_Ab,q5_Ab,q6_Ab]).T
 
-        q_3 = np.array([0,q1_B,q2,q3_B,q4_Ba,q5_Ba,q6_Ba]).T
-        q_4 = np.array([0,q1_B,q2,q3_B,q4_Bb,q5_Bb,q6_Bb]).T
-        
-        q = np.vstack((q_1,q_2,q_3,q_4))
-        # print "\n\n\n\n"
-        # print q
-        # print "\n\n\n\n"
-        q = self._check_best_configure(q,q_previous)
+            q_3 = np.array([0,q1_B,q2,q3_B,q4_Ba,q5_Ba,q6_Ba]).T
+            q_4 = np.array([0,q1_B,q2,q3_B,q4_Bb,q5_Bb,q6_Bb]).T
+            
+            q = np.vstack((q_1,q_2,q_3,q_4))
+            # print "\n\n\n\n"
+            # print q
+            # print "\n\n\n\n"
+            q = self._check_best_configure(q,q_previous)
 
-        return q
+            return q
+        else:
+            return None
 
     def _check_best_configure(self,q,q_previous):
         
