@@ -116,8 +116,8 @@ class SCARAKinematics(object):
         q2 = pos_wrist[2] - self.robot.h1 - self.robot.h2 - self.robot.h3 - self.robot.h4
 
         c3 = ((pos_wrist[0]**2 + pos_wrist[1]**2 - self.robot.l3**2 - (self.robot.l2 - self.robot.l1)**2)/(2*self.robot.l3*(self.robot.l2-self.robot.l1)))
-
-        if(np.isnan(c3)):
+        # print np.sqrt(1-(c3**2))
+        if(not np.isnan(np.sqrt(1-(c3**2)))):
         # s3_positive = np.sqrt(1-(c3**2))
         # s3_negative = -np.sqrt(1-(c3**2))
             s3_positive = np.sqrt(1-(c3**2))
@@ -209,6 +209,8 @@ class SCARAKinematics(object):
             check_lower = (q_lower<=q[i,:]).all()
             if check_lower and check_upper:
                 check_.append(q[i,:])
+        if(len(check_) == 0):
+            return None
 
         distance = []
         temp_distance = 0
