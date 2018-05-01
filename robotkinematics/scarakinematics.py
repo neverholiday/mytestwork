@@ -65,7 +65,7 @@ class SCARAKinematics(object):
         R2 = self.rot(angle[1],'y')
         R3 = self.rot(angle[2],'z')
         # rot_mat = reduce(np.dot,[R1,R2,R3])
-        rot_mat = np.matmul(R3, np.matmul(R2,R1))
+        rot_mat = np.matmul(R1, np.matmul(R2,R3))
         return rot_mat
     
     def orientationRPY(self,angle):
@@ -79,17 +79,17 @@ class SCARAKinematics(object):
 
     def forwardKinematics(self,q):
         n = self.robot.dh_table.shape[0]
-        # print n
+
         H = np.zeros((4,4,n))
-        add_q_to_dh = np.zeros(self.robot.dh_table.shape)
-        # print H
+        add_q_to_dh = self.robot.dh_table.copy()
+       
         # Add q depend on type of joint
         for i in range(n):
             if(self.robot.type_of_joint[i] == 0):
                 add_q_to_dh[i,1] = self.robot.dh_table[i,1] + q[i]
             elif(self.robot.type_of_joint[i] == 1):
                 add_q_to_dh[i,0] = self.robot.dh_table[i,0] + q[i]
-        
+
         # Find forwardkinematics equation
         for i in range(n):
             A_n = self.dh_trans(add_q_to_dh[i,0],add_q_to_dh[i,1],add_q_to_dh[i,2],add_q_to_dh[i,3])
@@ -110,16 +110,14 @@ class SCARAKinematics(object):
             R_e = self.orientationRPY(orientation)
         elif(type_of_orientation == "zyz"):
             R_e = self.orientationZYZ(orientation)
-
         # End-effector to wrist
         pos_wrist = (position.reshape(-1,1) - self.robot.h67*np.matmul(R_e[0:3,0:3],np.array([[0],[0],[1]])) + np.array([[0],[0],[self.robot.h5]]))
         q2 = pos_wrist[2] - self.robot.h1 - self.robot.h2 - self.robot.h3 - self.robot.h4
 
         c3 = ((pos_wrist[0]**2 + pos_wrist[1]**2 - self.robot.l3**2 - (self.robot.l2 - self.robot.l1)**2)/(2*self.robot.l3*(self.robot.l2-self.robot.l1)))
-        # print np.sqrt(1-(c3**2))
+
         if(not np.isnan(np.sqrt(1-(c3**2)))):
-        # s3_positive = np.sqrt(1-(c3**2))
-        # s3_negative = -np.sqrt(1-(c3**2))
+
             s3_positive = np.sqrt(1-(c3**2))
             s3_negative = -1*np.sqrt(1-(c3**2))
 
@@ -188,9 +186,7 @@ class SCARAKinematics(object):
             q_4 = np.array([0,q1_B,q2,q3_B,q4_Bb,q5_Bb,q6_Bb]).T
             
             q = np.vstack((q_1,q_2,q_3,q_4))
-            # print "\n\n\n\n"
-            # print q
-            # print "\n\n\n\n"
+
             q = self._check_best_configure(q,q_previous)
 
             return q
