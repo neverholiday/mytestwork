@@ -196,8 +196,8 @@ class SCARAKinematics(object):
     def _check_best_configure(self,q,q_previous):
         
         pi = np.pi
-        q_upper = np.array([0,pi,860,5*pi/6,5*pi/6,5*pi/6,pi])
-        q_lower = np.array([0,-pi,-100,-5*pi/6,-5*pi/6,-pi/9,-pi])
+        q_upper = np.array([0, pi, 860, 5*pi/6, 5*pi/6,   pi/2,  pi])
+        q_lower = np.array([0,-pi,-100,  -pi/2,-5*pi/6,  -pi/9, -pi])
         check_ = []
 
         for i in range(4):
