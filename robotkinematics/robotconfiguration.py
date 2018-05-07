@@ -27,8 +27,8 @@ class RobotConfiguration:
                         [0,  h67,    0,  0]])
 
     q1_limit = [-np.pi,      np.pi]
-    q2_limit = [-100,         820]
-    q3_limit = [-np.pi/2,    5*np.pi/6]
+    q2_limit = [-100,        820]
+    q3_limit = [-5*np.pi/6,  5*np.pi/6]
     q4_limit = [-5*np.pi/6,  5*np.pi/6]
     q5_limit = [-np.pi/9,    np.pi/2  ]
     q6_limit = [-np.pi,      np.pi]

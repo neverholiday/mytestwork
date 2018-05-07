@@ -114,7 +114,7 @@ class SCARAKinematics(object):
         pos_wrist = (position.reshape(-1,1) - self.robot.h67*np.matmul(R_e[0:3,0:3],np.array([[0],[0],[1]])) + np.array([[0],[0],[self.robot.h5]]))
         q2 = pos_wrist[2] - self.robot.h1 - self.robot.h2 - self.robot.h3 - self.robot.h4
 
-        c3 = ((pos_wrist[0]**2 + pos_wrist[1]**2 - self.robot.l3**2 - (self.robot.l2 - self.robot.l1)**2)/(2*self.robot.l3*(self.robot.l2-self.robot.l1)))
+        c3 = ((pos_wrist[0]**2 + pos_wrist[1]**2 - self.robot.l3**2 - (self.robot.l2+self.robot.l1)**2)/(2*self.robot.l3*(self.robot.l2+self.robot.l1)))
 
         if(not np.isnan(np.sqrt(1-(c3**2)))):
 
@@ -124,11 +124,11 @@ class SCARAKinematics(object):
             q3_A = np.arctan2(s3_positive,c3)
             q3_B = np.arctan2(s3_negative,c3)
 
-            s1_positive = (-self.robot.l3*s3_positive)*pos_wrist[0] + ((self.robot.l2-self.robot.l1) + self.robot.l3*c3)*pos_wrist[1]
-            s1_negative = (-self.robot.l3*s3_negative)*pos_wrist[0] + ((self.robot.l2-self.robot.l1) + self.robot.l3*c3)*pos_wrist[1]
+            s1_positive = (-self.robot.l3*s3_positive)*pos_wrist[0] + ((self.robot.l2+self.robot.l1) + self.robot.l3*c3)*pos_wrist[1]
+            s1_negative = (-self.robot.l3*s3_negative)*pos_wrist[0] + ((self.robot.l2+self.robot.l1) + self.robot.l3*c3)*pos_wrist[1]
 
-            c1_positive = ((self.robot.l2-self.robot.l1)+(self.robot.l3*c3))*pos_wrist[0] + (self.robot.l3*s3_positive)*pos_wrist[1]
-            c1_negative = ((self.robot.l2-self.robot.l1)+(self.robot.l3*c3))*pos_wrist[0] + (self.robot.l3*s3_negative)*pos_wrist[1]
+            c1_positive = ((self.robot.l2+self.robot.l1)+(self.robot.l3*c3))*pos_wrist[0] + (self.robot.l3*s3_positive)*pos_wrist[1]
+            c1_negative = ((self.robot.l2+self.robot.l1)+(self.robot.l3*c3))*pos_wrist[0] + (self.robot.l3*s3_negative)*pos_wrist[1]
             
             q1_A = np.arctan2(s1_positive,c1_positive)
             q1_B = np.arctan2(s1_negative,c1_negative)
