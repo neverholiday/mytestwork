@@ -8,7 +8,7 @@ class RobotConfiguration:
     h2 = 8
     l1 = 44.12
     h3 = 100
-    l2 = 500
+    l2 = 390
     h4 = 42.15
     l3 = 320
     h5 = 43.48
@@ -27,9 +27,9 @@ class RobotConfiguration:
                         [0,  h67,    0,  0]])
 
     q1_limit = [-np.pi,      np.pi]
-    q2_limit = [-50,         820]
+    q2_limit = [-100,         820]
     q3_limit = [-np.pi/2,    5*np.pi/6]
     q4_limit = [-5*np.pi/6,  5*np.pi/6]
-    q5_limit = [-np.pi/9,    5*np.pi/6]
+    q5_limit = [-np.pi/9,    np.pi/2  ]
     q6_limit = [-np.pi,      np.pi]
     
