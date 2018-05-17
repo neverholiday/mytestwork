@@ -121,6 +121,7 @@ class SCARAKinematics(object):
         q2 = pos_wrist[2] - self.robot.h2 - self.robot.h3 - self.robot.h4
         c3 = ((pos_wrist[0]**2 + pos_wrist[1]**2 - self.robot.l3**2 - (self.robot.l2+self.robot.l1)**2)/(2*self.robot.l3*(self.robot.l2+self.robot.l1)))
 
+
         if(not np.isnan(np.sqrt(1-(c3**2)))):
 
             s3_positive = np.sqrt(1-(c3**2))
@@ -137,6 +138,7 @@ class SCARAKinematics(object):
             
             q1_A = np.arctan2(s1_positive,c1_positive)
             q1_B = np.arctan2(s1_negative,c1_negative)
+
             q_wrist_pos_A = np.array([q1_A,q2,q3_A,0,0,0])
             q_wrist_pos_B = np.array([q1_B,q2,q3_B,0,0,0])
 
@@ -184,14 +186,14 @@ class SCARAKinematics(object):
             q6_Bb = np.arctan2(-r32_B/sq_Bb,r31_B/sq_Bb);
 
             # Result of 4 Configuration
-            q_1 = np.array([q1_A,q2,q3_A,q4_Aa,q5_Aa,q6_Aa]).T
-            q_2 = np.array([q1_A,q2,q3_A,q4_Ab,q5_Ab,q6_Ab]).T
+            q_1 = np.array([q1_A[0],q2[0],q3_A[0],q4_Aa,q5_Aa,q6_Aa]).T
+            q_2 = np.array([q1_A[0],q2[0],q3_A[0],q4_Ab,q5_Ab,q6_Ab]).T
 
-            q_3 = np.array([q1_B,q2,q3_B,q4_Ba,q5_Ba,q6_Ba]).T
-            q_4 = np.array([q1_B,q2,q3_B,q4_Bb,q5_Bb,q6_Bb]).T
+            q_3 = np.array([q1_B[0],q2[0],q3_B[0],q4_Ba,q5_Ba,q6_Ba]).T
+            q_4 = np.array([q1_B[0],q2[0],q3_B[0],q4_Bb,q5_Bb,q6_Bb]).T
             
             q = np.vstack((q_1,q_2,q_3,q_4))
-
+            # print(q)
             q = self._check_best_configure(q,q_previous,option)
 
             return q
@@ -259,7 +261,7 @@ class SCARAKinematics(object):
         
         elif(option == 2):
             potential_list = []
-            print(check_)
+            # print(check_)
             for q in check_:
                 nearest_val = (Q1-q[0])**2 + (Q3-q[2])**2
                 val = nearest_val.min()
@@ -271,8 +273,8 @@ class SCARAKinematics(object):
             _idx_poten = potential_list.index(min(potential_list))
 
             # print("\n")
-            print(potential_list)
-            print(check_[_idx_poten])
+            # print(potential_list)
+            # print(check_[_idx_poten])
             return check_[_idx_poten]
 
 #     fk = forwardKinematics()
