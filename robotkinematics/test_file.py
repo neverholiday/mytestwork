@@ -5,29 +5,26 @@ from pprint import pprint
 
 kinematics = SCARAKinematics()
 
-test_case = np.array([[0,0,0],[np.pi/2,0,0],[np.pi/6,np.pi/2,0],[np.pi/3,0,np.pi/6]])
+q_previous = np.array([0,0,0,0,0,0])
+pos = np.array([150,300,25])
+orientation = np.array([0,np.pi,0])
 
-# for i in range(test_case.shape[0]):
-# 	test_orient = test_case[i,:]
-# 	rot_mat = kinematics.orientationRPY(test_orient)
-# 	print rot_mat[0:3,0:3]
-# 	print "\n"
-position_start = np.array([[400],[-200],[550]]).reshape(-1)
-orientation_start = np.array([[np.pi],[0],[0]]).reshape(-1)
-# 
-q_previous = np.array([0,0,0,0,0,0,0])
-q_1 = kinematics.inverseKinematicsCalculate(position_start, orientation_start,"rpy",q_previous)
-# pprint(q_1)
-# print q_1
-(H,H_e,R_e,p_e) = kinematics.forwardKinematics(q_1)
+q = kinematics.inverseKinematicsCalculate(pos,orientation,"zyz",q_previous,option=2)
+(H,H_e,R_e,p_e) = kinematics.forwardKinematics(q)
+
+print(p_e)
+
+# Q1 = np.genfromtxt("Q1.csv",delimiter=",")
+# Q3 = np.genfromtxt("Q3.csv",delimiter=",")
+# poten_map = np.genfromtxt("potentialMap.csv",delimiter=" ")
 
 
-print p_e
+# # find nearest
+# q1_nearest = (Q1-q[0])**2 + (Q3-q[2])**2
+# val = q1_nearest.min()
+# idx = np.where(q1_nearest == val)
 
-# position_end = np.array([[600],[20],[500]]).reshape(-1)
-# orientation_end = np.array([[0],[np.pi/2],[0]]).reshape(-1)
-# q_2 = kinematics.inverseKinematicsCalculate(position_end, orientation_end, "rpy",q_1)
-# pprint(q_2)
-# (H,H_e,R_e,p_e) = kinematics.forwardKinematics(q_2)
-# print p_e
+# print(idx)
+# print(Q1[idx[0],idx[1]])
+# print(Q3[idx[0],idx[1]])
 
