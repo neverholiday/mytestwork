@@ -1,0 +1,22 @@
+(-sin(q1)*sin(q2)*cos(a1) + cos(q1)*cos(q2))*cos(q3) + (sin(a1)*sin(a2)*sin(q1) - sin(q1)*cos(a1)*cos(a2)*cos(q2) - sin(q2)*cos(a2)*cos(q1))*sin(q3)
+-(-sin(q1)*sin(q2)*cos(a1) + cos(q1)*cos(q2))*sin(q3) + (sin(a1)*sin(a2)*sin(q1) - sin(q1)*cos(a1)*cos(a2)*cos(q2) - sin(q2)*cos(a2)*cos(q1))*cos(q3)
+sin(a1)*sin(q1)*cos(a2) + sin(a2)*sin(q1)*cos(a1)*cos(q2) + sin(a2)*sin(q2)*cos(q1)
+l3*(sin(a1)*sin(q1)*cos(a2) + sin(a2)*sin(q1)*cos(a1)*cos(q2) + sin(a2)*sin(q2)*cos(q1))
+
+
+(sin(q1)*cos(q2) + sin(q2)*cos(a1)*cos(q1))*cos(q3) + (-sin(a1)*sin(a2)*cos(q1) - sin(q1)*sin(q2)*cos(a2) + cos(a1)*cos(a2)*cos(q1)*cos(q2))*sin(q3)
+-(sin(q1)*cos(q2) + sin(q2)*cos(a1)*cos(q1))*sin(q3) + (-sin(a1)*sin(a2)*cos(q1) - sin(q1)*sin(q2)*cos(a2) + cos(a1)*cos(a2)*cos(q1)*cos(q2))*cos(q3)
+-sin(a1)*cos(a2)*cos(q1) + sin(a2)*sin(q1)*sin(q2) - sin(a2)*cos(a1)*cos(q1)*cos(q2)
+l3*(-sin(a1)*cos(a2)*cos(q1) + sin(a2)*sin(q1)*sin(q2) - sin(a2)*cos(a1)*cos(q1)*cos(q2))
+
+
+(sin(a1)*cos(a2)*cos(q2) + sin(a2)*cos(a1))*sin(q3) + sin(a1)*sin(q2)*cos(q3)
+(sin(a1)*cos(a2)*cos(q2) + sin(a2)*cos(a1))*cos(q3) - sin(a1)*sin(q2)*sin(q3)
+-sin(a1)*sin(a2)*cos(q2) + cos(a1)*cos(a2)
+l3*(-sin(a1)*sin(a2)*cos(q2) + cos(a1)*cos(a2))
+
+
+0
+0
+0
+1
