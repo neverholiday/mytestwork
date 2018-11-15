@@ -20,3 +20,18 @@ l3*(-sin(a1)*sin(a2)*cos(q2) + cos(a1)*cos(a2))
 0
 0
 1
+
+q = [0 q1 q2 ];
+DH_table = [0, h1,  0,    0;
+            0, l1,  0,    pi/2;
+            a1, 0,  l2,   0 ];
+
+type_of_joint = [ 1, 1, 1 ];
+
+l2 = sqrt( x**2 + y**2 )
+a1 = arctan( y / x )
+
+[ cos(a1 + q2)*cos(q1), -sin(a1 + q2)*cos(q1),  sin(q1),   l2*cos(a1 + q2)*cos(q1)]
+[ cos(a1 + q2)*sin(q1), -sin(a1 + q2)*sin(q1), -cos(q1),   l2*cos(a1 + q2)*sin(q1)]
+[         sin(a1 + q2),          cos(a1 + q2),        0, h1 + l1 + l2*sin(a1 + q2)]
+[                    0,                     0,        0,                         1]
