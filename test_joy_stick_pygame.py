@@ -60,11 +60,11 @@ class JoyStickController( object ):
 				self.hatData[ event.hat ] = event.value
 
 		print "Button data"
-		# print self.buttonData
-		# print "Axis data"
-		# print self.axisData
-		# print "Hat data"
-		# print self.hatData
+		print self.buttonData
+		print "Axis data"
+		print self.axisData
+		print "Hat data"
+		print self.hatData
 
 def main():
 	

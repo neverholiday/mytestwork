@@ -65,24 +65,17 @@ class ImageLabel( QtGui.QLabel ):
         #   load image
         image = loadImage()
 
-        #   get property of image 
-        height, width, channel = image.shape
-        bytePerRow = image.strides[ 0 ]
-
-        #   create qImage from opencv
-        #   convert image numpy format to QImage format
-        self.qImage = QtGui.QImage( image.data, width, height, bytePerRow, QtGui.QImage.Format_RGB888 )
-
-        #   create pixmap by QImage object
-        self.pixmap = QtGui.QPixmap( self.qImage )
+        self.setImageLabel( image )
 
         #   add image to label
         self.setPixmap( self.pixmap ) 
 
         #   initial position top left
         #   initial position bottom right
-        self.topLeftPosition = QtCore.QPoint( 0, 0 )
-        self.bottomRightPosition = QtCore.QPoint( 0, 0 )
+        #self.topLeftPosition = QtCore.QPoint( 0, 0 )
+        #self.bottomRightPosition = QtCore.QPoint( 0, 0 )
+        self.topLeftPosition = None
+        self.bottomRightPosition = None
 
         self.boundingBoxRect = None
 
@@ -132,16 +125,31 @@ class ImageLabel( QtGui.QLabel ):
         #   set painter to draw pixmap
         self.painter.drawPixmap( self.rect(), self.pixmap )
 
-        #   setup pen
-        self.painter.setPen( QtGui.QColor( QtCore.Qt.red ) )
+        if self.bottomRightPosition is not None and self.topLeftPosition is not None:
+            
+            #   setup pen
+            self.painter.setPen( QtGui.QColor( QtCore.Qt.red ) )
 
-        self.boundingBoxRect = QtCore.QRect( self.topLeftPosition, self.bottomRightPosition )
+            self.boundingBoxRect = QtCore.QRect( self.topLeftPosition, self.bottomRightPosition )
 
-        #   draw !!!
-        self.painter.drawRect( self.boundingBoxRect )
+            #   draw !!!
+            self.painter.drawRect( self.boundingBoxRect )
 
         #   end
         self.painter.end()
+
+    def setImageLabel( self, image ):
+        
+        #   get property of image 
+        height, width, channel = image.shape
+        bytePerRow = image.strides[ 0 ]
+
+        #   create qImage from opencv
+        #   convert image numpy format to QImage format
+        self.qImage = QtGui.QImage( image.data, width, height, bytePerRow, QtGui.QImage.Format_RGB888 )
+
+        #   create pixmap by QImage object
+        self.pixmap = QtGui.QPixmap( self.qImage )
 
 
 
