@@ -1,0 +1,14 @@
+#!/bin/sh
+
+check_dev(){
+	while true
+	do
+		ls /dev/ | grep ACM;
+		ls /dev/ | grep USB;
+		ls /dev/ | grep video;
+		sleep 1;
+		clear;
+
+	done	
+};
+
